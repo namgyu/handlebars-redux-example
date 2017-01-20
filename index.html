@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>handlebars-redux</title>
+  </head>
+  <body>
+    <div id="counterApp">
+      <script id="counter-template" type="text/x-handlebars-template">
+        Clicked: <span id="value">{{countNum}}</span> times
+        <button id="increment">+</button>
+        <button id="decrement">-</button>
+        <button id="incrementIfOdd">Increment if odd</button>
+        <button id="incrementAsync">Increment async</button>
+      </script>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+    <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
+    <script>
+      function counter(state, action) {
+        if (typeof state === 'undefined') {
+          return {
+            countNum : 0
+          };
+        }
+
+        switch (action.type) {
+          case 'INCREMENT':
+            return Object.assign({}, state, {
+              countNum : state.countNum + 1
+            });
+
+          case 'DECREMENT':
+            return Object.assign({}, state, {
+              countNum : state.countNum - 1
+            });
+
+          default:
+            return state;
+        }
+      }
+
+      function render() {
+        if (store.getState().countNum === 0) {
+          document.getElementById("counterApp").innerHTML = tmpl(store.getState());
+        } else {
+          var valueEl = document.getElementById('value');
+          valueEl.innerHTML = store.getState().countNum.toString();
+        }
+      }
+
+      var tmplSrc = document.getElementById("counter-template").innerHTML;
+      var tmpl = Handlebars.compile(tmplSrc);
+      var store = Redux.createStore(counter);
+
+      render();
+      store.subscribe(render);
+
+      document.getElementById('increment')
+      .addEventListener('click', function () {
+        store.dispatch({type: 'INCREMENT'});
+      });
+
+      document.getElementById('decrement')
+      .addEventListener('click', function () {
+        store.dispatch({type: 'DECREMENT'});
+      });
+
+      document.getElementById('incrementIfOdd')
+      .addEventListener('click', function () {
+        if (store.getState().countNum % 2 !== 0) {
+          store.dispatch({type: 'INCREMENT'});
+        }
+      });
+
+      document.getElementById('incrementAsync')
+      .addEventListener('click', function () {
+        setTimeout(function() {
+          store.dispatch({type: 'INCREMENT'});
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>
