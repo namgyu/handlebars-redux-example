@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>handlebars-redux</title>
+  </head>
+  <body>
+    <div id="counterApp">
+      <script id="counter-template" type="text/x-handlebars-template">
+        Clicked: <span id="value">{{countNum}}</span> times
+        <button id="increment">+</button>
+        <button id="decrement">-</button>
+        <button id="incrementIfOdd">Increment if odd</button>
+        <button id="incrementAsync">Increment async</button>
+      </script>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+    <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
+    <script src="/assets/bundle.js"></script>
+  </body>
+</html>
